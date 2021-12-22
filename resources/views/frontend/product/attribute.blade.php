@@ -51,10 +51,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Color</label>
-                                        @if($var_colors)
+                                        @if($colors->isNotEmpty())
                                             <select name="color" class="js-example-basic-single" style="width: 100%;">
                                                 <option value="">Please Select</option>
-                                                @foreach($var_colors as $color)
+                                                @foreach($colors as $color)
                                                     <option value="{{ $color->id }}">{{ $color->name }}</option>
                                                 @endforeach
                                             </select>
@@ -62,11 +62,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Size</label>
-                                        @if($var_sizes)
+                                        @if($sizes->isNotEmpty())
                                             <select name="size" class="js-example-basic-single" style="width: 100%;">
                                                 <option value="">Please Select</option>
-                                                @foreach($var_sizes as $size)
-                                                    <option value="{{ $size->id }}">{{ $size->name }}</option>
+                                                @foreach($sizes as $size)
+                                                    <option value="{{ $size->id }}">{{ $size->size }}</option>
                                                 @endforeach
                                             </select>
                                         @endif
@@ -111,7 +111,6 @@
                             <?php
                                 $color = App\Models\Color::where('id',$attribute->color_id)->get()->first();
                                 $size = App\Models\Size::where('id',$attribute->size_id)->get()->first();
-                                dd($color);
                             ?>
                             <tr>
                                 <td> {{ $attribute->id }} </td>

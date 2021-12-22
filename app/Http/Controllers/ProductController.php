@@ -190,9 +190,6 @@ class ProductController extends Controller
         $sizes = Size::all();
         $vars = Variation::all();
         $v = 1;
-        $var_colors = VariationItem::with('variation')->where('variation_id', 1)->get();
-//        $var_colors = VariationItem::where('variation_id ', 1)->get();
-        $var_sizes = VariationItem::where('variation_id', 2)->get();
         //dd($var_sizes);
 
         return view('frontend.product.attribute',
@@ -202,8 +199,6 @@ class ProductController extends Controller
                 'colors'=>$colors,
                 'sizes'=>$sizes,
                 'vars'=>$vars,
-                'var_colors'=>$var_colors,
-                'var_sizes'=>$var_sizes,
                 'category'=>$category,
                 'country'=>$country
         ]);
@@ -222,12 +217,15 @@ class ProductController extends Controller
         $att->color_id = $request->input('color');
         $att->size_id = $request->input('size');
 
-        $att->save();
-        Session::flash('message', 'Product Added successfully!');
-        Session::flash('alert-class', 'alert-success');
-
-        return redirect()->route('product-attribute')
-            ->with('success','Post created successfully.');
+        if ($att->save()) {
+            
+            Session::flash('message', 'Product Added successfully!');
+            Session::flash('alert-class', 'alert-success');
+    
+            return redirect()->route('product-attribute', $att->product->slug)->with('success','Post created successfully.');
+        }
+        
+        
     }
 
 
